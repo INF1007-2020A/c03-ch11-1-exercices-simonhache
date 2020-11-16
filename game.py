@@ -20,15 +20,19 @@ class Weapon:
 	"""
 
 	def __init__(self, name, power, min_level):
-		self.__name__ = name
+		self.__name = name
 		self.power = power
 		self.min_level = min_level
 
 	def make_unarmed(self):
 		UNARMED_POWER = 20
-		self.__name__ = "Unarmed"
+		self.__name = "Unarmed"
 		self.power = UNARMED_POWER
 		self.min_level = 0
+
+	@property
+	def name(self):
+		return self.__name
 
 class Character:
 	"""
@@ -64,7 +68,7 @@ def deal_damage(attacker, defender):
 	damage = ((first_el * attacker.weapon.power * (attacker.attack/defender.defense))/50) + 2
 	damage *= modifier
 	damage = int(damage)
-	print(f"{attacker.name} used {attacker.weapon.__name__}")
+	print(f"{attacker.name} used {attacker.weapon.name}")
 	if crit == 2:
 		print("  Critical hit!")
 	print(f"  {defender.name} took {damage} dmg")
