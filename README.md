@@ -30,7 +30,7 @@ Dans notre jeu, un personnage est composé des propriétés suivantes :
 
 On a une méthode `compute_damage` qui calcule les dégâts infligés à un autre personnage (en paramètre). La formule est la suivante : 
 
-<img src="doc/assets/dmg_eq.png" width="600">
+<img src="/doc/assets/dmg_eq.png" width="600" alt = "Image Introuvable">
 
 Où *a* est l'attaquant et *d* est le défendeur. <br>
 *crit* est 2 environ 1/16 (6.25%) du temps, 1 sinon <br>

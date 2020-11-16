@@ -19,8 +19,16 @@ class Weapon:
 	:param min_level: Le niveau minimal pour l'utiliser
 	"""
 
-	UNARMED_POWER = 20
+	def __init__(self, name, power, min_level):
+		self.__name__ = name
+		self.power = power
+		self.min_level = min_level
 
+	def make_unarmed(self):
+		UNARMED_POWER = 20
+		self.__name__ = "Unarmed"
+		self.power = UNARMED_POWER
+		self.min_level = 0
 
 class Character:
 	"""
@@ -33,22 +41,51 @@ class Character:
 	:param level: Le niveau d'expérience du personnage
 	"""
 
-
+	def __init__(self, name, max_hp, attack, defense, level):
+		self.name = name
+		self.max_hp = max_hp
+		self.attack = attack
+		self.defense = defense
+		self.level = level
+		self.current_hp = max_hp
 
 def deal_damage(attacker, defender):
 	# TODO: Calculer dégâts
-	print(f"{attacker.name} used {attacker.weapon.name}")
-	if crit:
+
+	crit = random.choice(range(16))
+	if crit == 1:
+		crit = 2
+	else:
+		crit = 1
+	random_crit = ((random.random() * 15) + 85)/100
+
+	modifier = crit * random_crit
+	first_el = ((2 * attacker.level) / 5) + 2
+	damage = ((first_el * attacker.weapon.power * (attacker.attack/defender.defense))/50) + 2
+	damage *= modifier
+	damage = int(damage)
+	print(f"{attacker.name} used {attacker.weapon.__name__}")
+	if crit == 2:
 		print("  Critical hit!")
 	print(f"  {defender.name} took {damage} dmg")
+	defender.current_hp -= damage
+
 
 def run_battle(c1, c2):
-	# TODO: Initialiser attaquant/défendeur, tour, etc.
+	# Initialisation du combat
+	attacker = c1
+	defender = c2
+	turn = 0
+
 	print(f"{attacker.name} starts a battle with {defender.name}!")
 	while True:
-		# TODO: Appliquer l'attaque
-		# TODO: Si le défendeur est mort
+		turn += 1
+		deal_damage(attacker, defender)
+
+		if defender.current_hp <=0:
 			print(f"{defender.name } is sleeping with the fishes.")
 			break
-		# Échanger attaquant/défendeur
-	# TODO: Retourner nombre de tours effectués
+
+		attacker, defender = defender, attacker
+
+	return turn
